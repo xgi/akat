@@ -5,6 +5,16 @@ type Props = {
   coverSrc: string;
   year: number;
   originalLanguage: string;
+  productionCountries: string[];
+};
+
+// https://dev.to/jorik/country-code-to-flag-emoji-a21
+const getFlagEmoji = (countryCode: string) => {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split("")
+    .map((char) => 127397 + char.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
 };
 
 const SearchBoxItem: React.FC<Props> = (props: Props) => {
@@ -20,6 +30,16 @@ const SearchBoxItem: React.FC<Props> = (props: Props) => {
       </div>
       <div className="w-full text-left pl-20 pr-4 whitespace-nowrap">
         <p className="truncate" title={props.title}>
+          {props.productionCountries.map((countryCode) => (
+            <span
+              key={countryCode}
+              title={countryCode}
+              className="mr-1 last:mr-2"
+            >
+              {getFlagEmoji(countryCode)}
+            </span>
+          ))}
+
           {props.title}
         </p>
         <p className="truncate text-gray-400">

@@ -8,6 +8,7 @@ const TEMP_DATA = [
     coverSrc: "/cover.jpg",
     year: 2017,
     originalLanguage: "German",
+    productionCountries: ["US", "GB"],
   },
   {
     key: 2,
@@ -15,6 +16,7 @@ const TEMP_DATA = [
     coverSrc: "/cover2.jpg",
     year: 2019,
     originalLanguage: "Japanese",
+    productionCountries: ["US"],
   },
   {
     key: 3,
@@ -22,6 +24,7 @@ const TEMP_DATA = [
     coverSrc: "/cover.jpg",
     year: 2017,
     originalLanguage: "English",
+    productionCountries: ["JP"],
   },
   {
     key: 4,
@@ -29,6 +32,7 @@ const TEMP_DATA = [
     coverSrc: "/cover2.jpg",
     year: 2021,
     originalLanguage: "Japanese",
+    productionCountries: ["FR"],
   },
 ];
 
@@ -36,7 +40,8 @@ type Props = {};
 
 const SearchBox: React.FC<Props> = (props: Props) => {
   return (
-    <div className="mt-2 rounded-md relative max-h-96 overflow-y-auto border-gray-500 shadow-md">
+    // <div className="mt-2 rounded-md relative max-h-96 overflow-y-auto border-gray-500 shadow-md">
+    <div className="mt-2 rounded-md relative overflow-y-auto border-gray-500 shadow-md">
       {TEMP_DATA.map((item) => (
         <SearchBoxItem
           key={item.key}
@@ -44,6 +49,7 @@ const SearchBox: React.FC<Props> = (props: Props) => {
           coverSrc={item.coverSrc}
           year={item.year}
           originalLanguage={item.originalLanguage}
+          productionCountries={item.productionCountries}
         />
       ))}
     </div>
