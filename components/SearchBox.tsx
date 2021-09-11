@@ -4,7 +4,7 @@ import SearchBoxItem from "./SearchBoxItem";
 const TEMP_DATA = [
   {
     key: 1,
-    title: "Some Movie",
+    title: "Some Movie Some Movie Some Movie Some Movie Some Movie SQQQome Movie Some Movie Some MoviQQQe Some Movie Some Movie Some Movie Some Movie Some Movie Some Movie ",
     coverSrc: "/cover.jpg",
     year: 2017,
     originalLanguage: "German",
