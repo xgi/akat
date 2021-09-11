@@ -1,80 +1,77 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-brand text-white">
       <Head>
-        <title>Create Next App</title>
+        <title>AKAT - Movie titles from different regions</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{" "}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      <main className="flex flex-col items-center justify-center w-full flex-1 px-4 text-center">
+        <div className="relative w-full h-20">
+          <Image alt="AKAT header" src="/header.svg" layout="fill" />
+        </div>
 
         <p className="mt-3 text-2xl">
-          Get started by editing{" "}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
+          Get movie titles from regions around the world.
         </p>
 
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <div className="mt-4 relative rounded-md shadow-sm max-w-2xl sm:w-full">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span className="text-gray-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </span>
+          </div>
+          <input
+            type="text"
+            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-12 border-gray-300 text-xl rounded-md text-white bg-transparent"
+            placeholder="Search for a movie..."
+          />
         </div>
       </main>
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
+      <footer className="flex items-center justify-center w-full h-12 border-t">
         <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
+          href="#"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by
+          About
+        </a>
+        {"//"}
+        <a
+          className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        {"//"}
+        <a
+          className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          License
         </a>
       </footer>
     </div>
