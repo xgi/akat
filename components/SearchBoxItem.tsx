@@ -19,7 +19,7 @@ const getFlagEmoji = (countryCode: string) => {
 
 const SearchBoxItem: React.FC<Props> = (props: Props) => {
   return (
-    <div className="relative h-20 flex flex-col justify-center bg-brand-dark hover:bg-indigo-700 border-b border-brand last:border-0">
+    <div className="relative h-20 flex flex-col justify-center bg-brand-dark hover:bg-indigo-700 border-b border-brand last:border-0 cursor-pointer">
       <div className="absolute inset-y-0 flex w-14">
         <Image
           src={props.coverSrc}
