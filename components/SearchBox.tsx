@@ -1,10 +1,12 @@
 import React from "react";
+import { getPosterUrl, SearchPage } from "../utils/TMDBAPI";
 import SearchBoxItem from "./SearchBoxItem";
 
 const TEMP_DATA = [
   {
     key: 1,
-    title: "Some Movie Some Movie Some Movie Some Movie Some Movie SQQQome Movie Some Movie Some MoviQQQe Some Movie Some Movie Some Movie Some Movie Some Movie Some Movie ",
+    title:
+      "Some Movie Some Movie Some Movie Some Movie Some Movie SQQQome Movie Some Movie Some MoviQQQe Some Movie Some Movie Some Movie Some Movie Some Movie Some Movie ",
     coverSrc: "/cover.jpg",
     year: 2017,
     originalLanguage: "German",
@@ -36,20 +38,25 @@ const TEMP_DATA = [
   },
 ];
 
-type Props = {};
+type Props = {
+  searchResponse: SearchPage | undefined;
+};
 
 const SearchBox: React.FC<Props> = (props: Props) => {
+  if (!props.searchResponse || !props.searchResponse.results) return <></>;
+
   return (
-    // <div className="mt-2 rounded-md relative max-h-96 overflow-y-auto border-gray-500 shadow-md">
     <div className="mt-2 rounded-md relative overflow-y-auto border-gray-500 shadow-md">
-      {TEMP_DATA.map((item) => (
+      {props.searchResponse.results.slice(0, 4).map((result) => (
         <SearchBoxItem
-          key={item.key}
-          title={item.title}
-          coverSrc={item.coverSrc}
-          year={item.year}
-          originalLanguage={item.originalLanguage}
-          productionCountries={item.productionCountries}
+          key={result.id}
+          title={result.title}
+          coverSrc={
+            result.poster_path ? getPosterUrl(result.poster_path) : "/cover.jpg"
+          }
+          year={new Date(result.release_date).getFullYear()}
+          originalLanguage={result.original_language}
+          productionCountries={["US"]}
         />
       ))}
     </div>

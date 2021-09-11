@@ -30,7 +30,7 @@ const SearchBoxItem: React.FC<Props> = (props: Props) => {
       </div>
       <div className="sm:w-10/12 w-9/12 m-auto text-left whitespace-nowrap">
         <p className="truncate" title={props.title}>
-          {props.productionCountries.map((countryCode) => (
+          {/* {props.productionCountries.map((countryCode) => (
             <span
               key={countryCode}
               title={countryCode}
@@ -38,7 +38,7 @@ const SearchBoxItem: React.FC<Props> = (props: Props) => {
             >
               {getFlagEmoji(countryCode)}
             </span>
-          ))}
+          ))} */}
 
           {props.title}
         </p>

@@ -1,9 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import SearchBox from "../components/SearchBox";
+import { searchMovies, SearchPage } from "../utils/TMDBAPI";
 
 const Home: NextPage = () => {
+  const [searchResponse, setSearchResponse] = useState<
+    SearchPage | undefined
+  >();
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-brand text-white">
       <Head>
@@ -20,7 +26,7 @@ const Home: NextPage = () => {
           Get movie titles from regions around the world.
         </p>
 
-        <div className="max-w-2xl sm:w-full">
+        <div className="w-full max-w-2xl">
           <div className="mt-4 relative rounded-md shadow-sm">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <span className="text-gray-500">
@@ -44,10 +50,27 @@ const Home: NextPage = () => {
               type="text"
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-12 border-0 shadow-lg text-xl rounded-md text-white bg-brand-dark"
               placeholder="Search for a movie..."
+              onChange={(e) =>
+                searchMovies(e.target.value).then((response) => {
+                  if (response) {
+                    setSearchResponse(response);
+                  } else {
+                    setSearchResponse(undefined);
+                  }
+                })
+              }
             />
           </div>
 
-          <SearchBox />
+          <SearchBox searchResponse={searchResponse} />
+
+          <div className="relative justify-center items-center">
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+          </div>
         </div>
       </main>
 
