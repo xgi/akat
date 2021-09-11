@@ -1,14 +1,28 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBox from "../components/SearchBox";
 import { searchMovies, SearchPage } from "../utils/TMDBAPI";
 
 const Home: NextPage = () => {
+  const [query, setQuery] = useState("");
   const [searchResponse, setSearchResponse] = useState<
     SearchPage | undefined
   >();
+
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      searchMovies(query).then((response) => {
+        if (response) {
+          setSearchResponse(response);
+        } else {
+          setSearchResponse(undefined);
+        }
+      });
+    }, 100);
+    return () => clearTimeout(timeoutID);
+  }, [query]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-brand text-white">
@@ -50,15 +64,8 @@ const Home: NextPage = () => {
               type="text"
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-12 border-0 shadow-lg text-xl rounded-md text-white bg-brand-dark"
               placeholder="Search for a movie..."
-              onChange={(e) =>
-                searchMovies(e.target.value).then((response) => {
-                  if (response) {
-                    setSearchResponse(response);
-                  } else {
-                    setSearchResponse(undefined);
-                  }
-                })
-              }
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
 
