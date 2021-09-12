@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { languageFromCode } from "../utils/languages";
 
 type Props = {
   title: string;
@@ -28,7 +29,7 @@ const SearchPopupItem: React.FC<Props> = (props: Props) => {
       <div className="relative w-14">
         <Image
           src={props.coverSrc}
-          alt="temp"
+          alt={props.title}
           layout="fill"
           objectFit="cover"
         />
@@ -52,7 +53,7 @@ const SearchPopupItem: React.FC<Props> = (props: Props) => {
             props.selected ? "text-gray-300" : ""
           }`}
         >
-          {props.year} - {props.originalLanguage}
+          {props.year} - {languageFromCode(props.originalLanguage)}
         </p>
       </div>
     </div>
