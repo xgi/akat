@@ -32,13 +32,13 @@ const Home: NextPage = () => {
   }, [query]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-brand text-white">
+    <div className="flex flex-col min-h-screen bg-brand text-white">
       <Head>
         <title>AKAT - Movie titles from different regions</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-4 mb-24 text-center">
+      <main className="flex flex-col items-center w-full flex-1 px-4 text-center mt-36 md:mt-48 xl:mt-52">
         <div className="relative w-full h-20">
           <Image alt="AKAT header" src="/header.svg" layout="fill" />
         </div>
@@ -114,17 +114,40 @@ const Home: NextPage = () => {
             ""
           )}
 
-          <div className="relative justify-center items-center">
+          {/* <div className="relative justify-center items-center">
             <p>some text goes here</p>
             <p>some text</p>
             <p>some text</p>
             <p>some text</p>
             <p>some text</p>
-          </div>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+            <p>some text</p>
+          </div> */}
         </div>
       </main>
 
-      <footer className="flex items-center justify-center w-full h-12 border-t">
+      <footer className="flex items-center justify-center w-full h-12 mt-4">
         <a
           className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
           href="#"

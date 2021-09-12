@@ -12,7 +12,7 @@ const SearchPopup: React.FC<Props> = (props: Props) => {
   if (!props.searchResponse || !props.searchResponse.results) return <></>;
 
   return (
-    <div className="mt-2 rounded-md absolute w-full max-w-2xl overflow-y-auto border-gray-500 shadow-md">
+    <div className="mt-2 rounded-md relative w-full max-w-2xl overflow-y-auto border-gray-500 shadow-md">
       {props.searchResponse.results
         .slice(0, NUM_SHOWN_SEARCH_RESULTS)
         .map((result) => (
