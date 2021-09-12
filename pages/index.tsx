@@ -2,26 +2,33 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import SearchBox from "../components/SearchBox";
+import SearchPopup from "../components/SearchPopup";
+import { NUM_SHOWN_SEARCH_RESULTS } from "../utils/constants";
 import { searchMovies, SearchPage } from "../utils/TMDBAPI";
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState("");
+  const [showingSearchPopup, setShowingSearchPopup] = useState(false);
   const [searchResponse, setSearchResponse] = useState<
     SearchPage | undefined
   >();
+  const [selectedSearchIndex, setSelectedSearchIndex] = useState(-1);
 
   useEffect(() => {
-    const timeoutID = setTimeout(() => {
-      searchMovies(query).then((response) => {
-        if (response) {
-          setSearchResponse(response);
-        } else {
-          setSearchResponse(undefined);
-        }
-      });
-    }, 100);
-    return () => clearTimeout(timeoutID);
+    if (query !== "") {
+      const timeoutID = setTimeout(() => {
+        searchMovies(query).then((response) => {
+          if (response) {
+            setSearchResponse(response);
+          } else {
+            setSearchResponse(undefined);
+          }
+        });
+      }, 100);
+      return () => clearTimeout(timeoutID);
+    } else {
+      setSearchResponse(undefined);
+    }
   }, [query]);
 
   return (
@@ -61,18 +68,54 @@ const Home: NextPage = () => {
               </span>
             </div>
             <input
+              autoFocus
               type="text"
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-12 border-0 shadow-lg text-xl rounded-md text-white bg-brand-dark"
               placeholder="Search for a movie..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onFocus={(e) => setShowingSearchPopup(true)}
+              onBlur={(e) => setShowingSearchPopup(false)}
+              onKeyDownCapture={(e) => {
+                switch (e.key) {
+                  case "ArrowDown":
+                    if (selectedSearchIndex >= NUM_SHOWN_SEARCH_RESULTS - 1) {
+                      setSelectedSearchIndex(0);
+                    } else {
+                      setSelectedSearchIndex(selectedSearchIndex + 1);
+                    }
+                    e.preventDefault();
+                    break;
+                  case "ArrowUp":
+                    if (selectedSearchIndex <= 0) {
+                      setSelectedSearchIndex(NUM_SHOWN_SEARCH_RESULTS - 1);
+                    } else {
+                      setSelectedSearchIndex(selectedSearchIndex - 1);
+                    }
+                    e.preventDefault();
+                    break;
+                  case "Escape":
+                    setQuery("");
+                    break;
+                  default:
+                    setSelectedSearchIndex(-1);
+                    break;
+                }
+              }}
             />
           </div>
 
-          <SearchBox searchResponse={searchResponse} />
+          {showingSearchPopup ? (
+            <SearchPopup
+              searchResponse={searchResponse}
+              selectedSearchIndex={selectedSearchIndex}
+            />
+          ) : (
+            ""
+          )}
 
           <div className="relative justify-center items-center">
-            <p>some text</p>
+            <p>some text goes here</p>
             <p>some text</p>
             <p>some text</p>
             <p>some text</p>

@@ -6,6 +6,7 @@ type Props = {
   year: number;
   originalLanguage: string;
   productionCountries: string[];
+  selected: boolean;
 };
 
 // https://dev.to/jorik/country-code-to-flag-emoji-a21
@@ -17,9 +18,13 @@ const getFlagEmoji = (countryCode: string) => {
   return String.fromCodePoint(...codePoints);
 };
 
-const SearchBoxItem: React.FC<Props> = (props: Props) => {
+const SearchPopupItem: React.FC<Props> = (props: Props) => {
   return (
-    <div className="z-40 relative h-20 flex space-x-4 bg-brand-dark hover:bg-indigo-700 border-b border-brand last:border-0 group cursor-pointer">
+    <div
+      className={`z-40 relative h-20 flex space-x-4 bg-brand-dark hover:bg-indigo-700 ${
+        props.selected ? "bg-indigo-700" : ""
+      } border-b border-brand last:border-0 group cursor-pointer`}
+    >
       <div className="relative w-14">
         <Image
           src={props.coverSrc}
@@ -42,7 +47,11 @@ const SearchBoxItem: React.FC<Props> = (props: Props) => {
 
           {props.title}
         </p>
-        <p className="truncate text-gray-400 group-hover:text-gray-300">
+        <p
+          className={`truncate text-gray-400 group-hover:text-gray-300 ${
+            props.selected ? "text-gray-300" : ""
+          }`}
+        >
           {props.year} - {props.originalLanguage}
         </p>
       </div>
@@ -50,4 +59,4 @@ const SearchBoxItem: React.FC<Props> = (props: Props) => {
   );
 };
 
-export default SearchBoxItem;
+export default SearchPopupItem;
