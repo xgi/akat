@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import SearchPopup from "../components/SearchPopup";
+import PageHead from "../components/PageHead";
 import { NUM_SHOWN_SEARCH_RESULTS } from "../utils/constants";
 import { searchMovies, SearchPage } from "../utils/TMDBAPI";
 
@@ -33,10 +33,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-brand text-white">
-      <Head>
-        <title>AKAT - Movie titles from different regions</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <PageHead />
 
       <main className="flex flex-col items-center w-full flex-1 px-4 text-center mt-36 md:mt-48 xl:mt-52">
         <div className="relative w-full h-20">
@@ -150,9 +147,7 @@ const Home: NextPage = () => {
       <footer className="flex items-center justify-center w-full h-12 mt-4">
         <a
           className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/about"
         >
           About
         </a>
