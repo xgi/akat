@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import SearchPopup from "../components/SearchPopup";
 import PageHead from "../components/PageHead";
@@ -145,12 +146,11 @@ const Home: NextPage = () => {
       </main>
 
       <footer className="flex items-center justify-center w-full h-12 mt-4">
-        <a
-          className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
-          href="/about"
-        >
-          About
-        </a>
+        <Link href="/about">
+          <a className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise">
+            About
+          </a>
+        </Link>
         {"//"}
         <a
           className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
