@@ -41,7 +41,7 @@ const About: NextPage = () => {
           Yes! Source is at{" "}
           <a
             className="border-b border-dotted hover:text-turquoise focus:text-turquoise hover:border-turquoise focus:border-turquoise"
-            href="https://www.themoviedb.org"
+            href="https://github.com/xgi/akat"
             target="_blank"
             rel="noopener noreferrer"
           >
