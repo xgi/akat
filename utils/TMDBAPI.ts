@@ -1,6 +1,6 @@
 import { TMDB_API } from "./constants";
 
-type MovieDetails = {
+export type MovieDetails = {
   id: number;
   imdb_id: string | null;
   original_language: string;
@@ -47,7 +47,6 @@ export const searchMovies = (query: string): Promise<SearchPage | null> => {
   )
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       return json as SearchPage;
     })
     .catch((e) => {
