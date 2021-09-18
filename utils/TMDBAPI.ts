@@ -27,6 +27,15 @@ export type SearchPage = {
   total_results: number;
 };
 
+export type AlternativeTitles = {
+  id: number;
+  titles: {
+    iso_3166_1: string;
+    title: string;
+    type: string;
+  }[];
+};
+
 export const getMovie = (id: number): Promise<MovieDetails | null> => {
   return fetch(
     `${TMDB_API.URL_BASE}/movie/${id.toString()}?api_key=${TMDB_API.KEY}`
@@ -48,6 +57,24 @@ export const searchMovies = (query: string): Promise<SearchPage | null> => {
     .then((response) => response.json())
     .then((json) => {
       return json as SearchPage;
+    })
+    .catch((e) => {
+      console.error(e);
+      return null;
+    });
+};
+
+export const getAlternativeTitles = (
+  id: number
+): Promise<AlternativeTitles | null> => {
+  return fetch(
+    `${TMDB_API.URL_BASE}/movie/${id.toString()}/alternative_titles?api_key=${
+      TMDB_API.KEY
+    }`
+  )
+    .then((response) => response.json())
+    .then((json) => {
+      return json as AlternativeTitles;
     })
     .catch((e) => {
       console.error(e);
