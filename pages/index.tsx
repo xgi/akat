@@ -6,6 +6,7 @@ import SearchPopup from "../components/SearchPopup";
 import PageHead from "../components/PageHead";
 import { NUM_SHOWN_SEARCH_RESULTS } from "../utils/constants";
 import { searchMovies, SearchPage } from "../utils/TMDBAPI";
+import InfoSection from "../components/InfoSection";
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState("");
@@ -14,6 +15,11 @@ const Home: NextPage = () => {
     SearchPage | undefined
   >();
   const [selectedSearchIndex, setSelectedSearchIndex] = useState(-1);
+  const [shownMovieId, setShownMovieId] = useState<number | undefined>();
+
+  const showInfo = (id: number) => {
+    setShownMovieId(id);
+  };
 
   useEffect(() => {
     if (query !== "") {
@@ -71,7 +77,10 @@ const Home: NextPage = () => {
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-12 border-0 shadow-lg text-xl rounded-md text-white bg-brand-dark"
               placeholder="Search for a movie..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                if (!showingSearchPopup) setShowingSearchPopup(true);
+              }}
               onFocus={(e) => setShowingSearchPopup(true)}
               onBlur={(e) => setShowingSearchPopup(false)}
               onKeyDownCapture={(e) => {
@@ -95,6 +104,13 @@ const Home: NextPage = () => {
                   case "Escape":
                     setQuery("");
                     break;
+                  case "Enter":
+                    setShowingSearchPopup(false);
+                    if (selectedSearchIndex !== -1) {
+                      const searchResult =
+                        searchResponse?.results[selectedSearchIndex];
+                      if (searchResult) showInfo(searchResult.id);
+                    }
                   default:
                     setSelectedSearchIndex(-1);
                     break;
@@ -107,41 +123,13 @@ const Home: NextPage = () => {
             <SearchPopup
               searchResponse={searchResponse}
               selectedSearchIndex={selectedSearchIndex}
+              showInfoCallback={showInfo}
             />
           ) : (
             ""
           )}
 
-          {/* <div className="relative justify-center items-center">
-            <p>some text goes here</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-            <p>some text</p>
-          </div> */}
+          {shownMovieId ? <InfoSection id={shownMovieId} /> : ""}
         </div>
       </main>
 

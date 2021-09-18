@@ -2,21 +2,14 @@ import Image from "next/image";
 import { languageFromCode } from "../utils/languages";
 
 type Props = {
+  id: number;
   title: string;
   coverSrc: string;
   year: number;
   originalLanguage: string;
   productionCountries: string[];
   selected: boolean;
-};
-
-// https://dev.to/jorik/country-code-to-flag-emoji-a21
-const getFlagEmoji = (countryCode: string) => {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt(0));
-  return String.fromCodePoint(...codePoints);
+  showInfoCallback: (id: number) => void;
 };
 
 const SearchPopupItem: React.FC<Props> = (props: Props) => {
@@ -25,6 +18,7 @@ const SearchPopupItem: React.FC<Props> = (props: Props) => {
       className={`z-40 relative h-20 flex space-x-4 bg-brand-dark hover:bg-indigo-700 ${
         props.selected ? "bg-indigo-700" : ""
       } border-b border-brand last:border-0 group cursor-pointer`}
+      onMouseDown={() => props.showInfoCallback(props.id)}
     >
       <div className="relative w-14">
         <Image
@@ -36,16 +30,6 @@ const SearchPopupItem: React.FC<Props> = (props: Props) => {
       </div>
       <div className="sm:w-10/12 w-9/12 m-auto text-left whitespace-nowrap">
         <p className="truncate" title={props.title}>
-          {/* {props.productionCountries.map((countryCode) => (
-            <span
-              key={countryCode}
-              title={countryCode}
-              className="mr-1 last:mr-2"
-            >
-              {getFlagEmoji(countryCode)}
-            </span>
-          ))} */}
-
           {props.title}
         </p>
         <p
@@ -53,7 +37,8 @@ const SearchPopupItem: React.FC<Props> = (props: Props) => {
             props.selected ? "text-gray-300" : ""
           }`}
         >
-          {props.year} - {languageFromCode(props.originalLanguage)}
+          {Number.isNaN(props.year) ? "Unknown Year" : props.year} -{" "}
+          {languageFromCode(props.originalLanguage)}
         </p>
       </div>
     </div>

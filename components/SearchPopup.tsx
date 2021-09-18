@@ -6,6 +6,7 @@ import SearchPopupItem from "./SearchPopupItem";
 type Props = {
   searchResponse: SearchPage | undefined;
   selectedSearchIndex: number;
+  showInfoCallback: (id: number) => void;
 };
 
 const SearchPopup: React.FC<Props> = (props: Props) => {
@@ -18,6 +19,7 @@ const SearchPopup: React.FC<Props> = (props: Props) => {
         .map((result) => (
           <SearchPopupItem
             key={result.id}
+            id={result.id}
             title={result.title}
             coverSrc={
               result.poster_path
@@ -32,6 +34,7 @@ const SearchPopup: React.FC<Props> = (props: Props) => {
               props.searchResponse?.results.indexOf(result) ===
                 props.selectedSearchIndex
             }
+            showInfoCallback={props.showInfoCallback}
           />
         ))}
     </div>
