@@ -36,6 +36,28 @@ export type AlternativeTitles = {
   }[];
 };
 
+export const RELEASE_TYPES: { [key: number]: string } = {
+  1: "Premiere",
+  2: "Theatrical (limited)",
+  3: "Theatrical",
+  4: "Digital",
+  5: "Physical",
+  6: "TV",
+};
+
+export type ReleaseDates = {
+  id: number;
+  results: {
+    iso_3166_1: string;
+    release_dates: {
+      certification: string;
+      iso_639_1: string;
+      release_date: string;
+      type: number;
+    }[];
+  }[];
+};
+
 export const getMovie = (id: number): Promise<MovieDetails | null> => {
   return fetch(
     `${TMDB_API.URL_BASE}/movie/${id.toString()}?api_key=${TMDB_API.KEY}`
@@ -75,6 +97,22 @@ export const getAlternativeTitles = (
     .then((response) => response.json())
     .then((json) => {
       return json as AlternativeTitles;
+    })
+    .catch((e) => {
+      console.error(e);
+      return null;
+    });
+};
+
+export const getReleaseDates = (id: number): Promise<ReleaseDates | null> => {
+  return fetch(
+    `${TMDB_API.URL_BASE}/movie/${id.toString()}/release_dates?api_key=${
+      TMDB_API.KEY
+    }`
+  )
+    .then((response) => response.json())
+    .then((json) => {
+      return json as ReleaseDates;
     })
     .catch((e) => {
       console.error(e);
