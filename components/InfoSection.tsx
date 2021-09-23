@@ -41,6 +41,7 @@ const InfoSection: React.FC<Props> = (props: Props) => {
   const [alternativeTitles, setAlternativeTitles] = useState<
     AlternativeTitles | undefined
   >();
+  const [showingFilters, setShowingFilters] = useState(false);
 
   useEffect(() => {
     getMovie(props.id)
@@ -58,11 +59,20 @@ const InfoSection: React.FC<Props> = (props: Props) => {
       });
   }, [props.id]);
 
+  const renderFilters = () => {
+    if (!showingFilters || !alternativeTitles) return;
+
+    return <p>no filters available</p>;
+  };
+
   const renderAltTitles = () => {
     if (!alternativeTitles) return;
 
-    return Object.entries(getTitlesByCountry(alternativeTitles)).map(
-      (entry) => {
+    return Object.entries(getTitlesByCountry(alternativeTitles))
+      .sort((a, b) =>
+        countryNameFromCode(a[0]).localeCompare(countryNameFromCode(b[0]))
+      )
+      .map((entry) => {
         const countryCode = entry[0];
         const titles = entry[1];
         const countryName = countryNameFromCode(countryCode);
@@ -81,15 +91,16 @@ const InfoSection: React.FC<Props> = (props: Props) => {
               </span>
               {countryName}
             </p>
-            {titles.map((title) => (
-              <p key={title} className="truncate text-gray-300 ml-4">
-                - {title}
-              </p>
-            ))}
+            <ul className="list-disc">
+              {titles.map((title) => (
+                <li key={title} className="truncate text-gray-300 ml-4">
+                  {title}
+                </li>
+              ))}
+            </ul>
           </div>
         );
-      }
-    );
+      });
   };
 
   if (!details) {
@@ -122,7 +133,7 @@ const InfoSection: React.FC<Props> = (props: Props) => {
   return (
     <div className="relative justify-center items-center mt-4">
       <div
-        className={`relative h-20 mb-6 flex space-x-4 bg-brand-dark rounded-md`}
+        className={`relative h-20 mb-4 flex space-x-4 bg-brand-dark rounded-md`}
       >
         <div className="relative w-14">
           <Image
@@ -159,7 +170,15 @@ const InfoSection: React.FC<Props> = (props: Props) => {
           </p>
         </div>
       </div>
-
+      <p className="text-right">
+        <a
+          className="text-blue-400 hover:text-turquoise focus:text-turquoise hover:border-turquoise focus:border-turquoise cursor-pointer select-none"
+          onClick={() => setShowingFilters(!showingFilters)}
+        >
+          filters
+        </a>
+      </p>
+      {renderFilters()}
       {renderAltTitles()}
     </div>
   );
