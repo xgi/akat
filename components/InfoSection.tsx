@@ -5,10 +5,14 @@ import {
   getAlternativeTitles,
   getMovie,
   getPosterUrl,
+  getReleaseDates,
   MovieDetails,
+  ReleaseDates,
+  RELEASE_TYPES,
 } from "../utils/TMDBAPI";
 import { languageFromCode } from "../utils/languages";
 import { countryNameFromCode } from "../utils/countries";
+import { formatReleaseDate } from "../utils/layout";
 
 type Props = {
   id: number;
@@ -41,22 +45,27 @@ const InfoSection: React.FC<Props> = (props: Props) => {
   const [alternativeTitles, setAlternativeTitles] = useState<
     AlternativeTitles | undefined
   >();
+  const [releaseDates, setReleaseDates] = useState<ReleaseDates | undefined>();
   const [showingFilters, setShowingFilters] = useState(false);
+  const [showingReleaseDates, setShowingReleaseDates] = useState(false);
+
+  const loadData = async () => {
+    const _details = await getMovie(props.id);
+    if (!_details) return;
+    setDetails(_details);
+
+    const _alternativeTitles = await getAlternativeTitles(props.id);
+    if (!_alternativeTitles) return;
+    setAlternativeTitles(_alternativeTitles);
+
+    const _releaseDates = await getReleaseDates(props.id);
+    if (!_releaseDates) return;
+    setReleaseDates(_releaseDates);
+  };
 
   useEffect(() => {
-    getMovie(props.id)
-      .then((result) => {
-        if (result) {
-          setDetails(result);
-        }
-
-        return getAlternativeTitles(props.id);
-      })
-      .then((result) => {
-        if (result) {
-          setAlternativeTitles(result);
-        }
-      });
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.id]);
 
   const renderFilters = () => {
@@ -65,8 +74,8 @@ const InfoSection: React.FC<Props> = (props: Props) => {
     return <p>no filters available</p>;
   };
 
-  const renderAltTitles = () => {
-    if (!alternativeTitles) return;
+  const renderRegionCards = () => {
+    if (!alternativeTitles || !releaseDates) return;
 
     return Object.entries(getTitlesByCountry(alternativeTitles))
       .sort((a, b) =>
@@ -76,6 +85,10 @@ const InfoSection: React.FC<Props> = (props: Props) => {
         const countryCode = entry[0];
         const titles = entry[1];
         const countryName = countryNameFromCode(countryCode);
+
+        const releaseDate = releaseDates.results.find(
+          (item) => item.iso_3166_1 === countryCode
+        );
 
         return (
           <div
@@ -98,6 +111,18 @@ const InfoSection: React.FC<Props> = (props: Props) => {
                 </li>
               ))}
             </ul>
+            {showingReleaseDates && releaseDate ? (
+              <ul>
+                {releaseDate.release_dates.map((item) => (
+                  <li key={item.type}>
+                    {RELEASE_TYPES[item.type]} -{" "}
+                    {formatReleaseDate(item.release_date)}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              ""
+            )}
           </div>
         );
       });
@@ -161,16 +186,19 @@ const InfoSection: React.FC<Props> = (props: Props) => {
             {details.original_title}
           </p>
           <p className="truncate text-gray-400">
-            {new Date(details.release_date).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}{" "}
-            - {languageFromCode(details.original_language)}
+            {formatReleaseDate(details.release_date)} -{" "}
+            {languageFromCode(details.original_language)}
           </p>
         </div>
       </div>
       <p className="text-right">
+        <a
+          className="text-blue-400 hover:text-turquoise focus:text-turquoise hover:border-turquoise focus:border-turquoise cursor-pointer select-none"
+          onClick={() => setShowingReleaseDates(!showingReleaseDates)}
+        >
+          {showingReleaseDates ? "hide release dates" : "show release dates"}
+        </a>{" "}
+        /{" "}
         <a
           className="text-blue-400 hover:text-turquoise focus:text-turquoise hover:border-turquoise focus:border-turquoise cursor-pointer select-none"
           onClick={() => setShowingFilters(!showingFilters)}
@@ -179,7 +207,7 @@ const InfoSection: React.FC<Props> = (props: Props) => {
         </a>
       </p>
       {renderFilters()}
-      {renderAltTitles()}
+      {renderRegionCards()}
     </div>
   );
 };
