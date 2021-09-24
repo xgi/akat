@@ -16,7 +16,7 @@ const About: NextPage = () => {
         <h1 className="text-2xl font-bold">What is AKAT?</h1>
         <p className="">
           AKAT (Also Known As Titles) is a tool for finding the titles of movies
-          as they were released in different countries.
+          as they were released in different places.
         </p>
         <h1 className="text-2xl font-bold mt-3">How do I use it?</h1>
         <p>
