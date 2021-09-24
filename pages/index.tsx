@@ -142,20 +142,11 @@ const Home: NextPage = () => {
         {"//"}
         <a
           className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
-          href="#"
+          href="https://github.com/xgi/akat"
           target="_blank"
           rel="noopener noreferrer"
         >
           GitHub
-        </a>
-        {"//"}
-        <a
-          className="flex items-center justify-center mx-3 hover:text-turquoise focus:text-turquoise"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          License
         </a>
       </footer>
     </div>
