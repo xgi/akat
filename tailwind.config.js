@@ -10,6 +10,11 @@ module.exports = {
           DEFAULT: "#2d2533",
           dark: "#201a24",
         },
+        highlight: {
+          light: "#ffe69d",
+          DEFAULT: "#f0bb20",
+          dark: "#ebb720",
+        },
         turquoise: {
           DEFAULT: "#2db8b0",
         },

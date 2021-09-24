@@ -158,7 +158,7 @@ const InfoSection: React.FC<Props> = (props: Props) => {
   return (
     <div className="relative justify-center items-center mt-4">
       <div
-        className={`relative h-20 mb-4 flex space-x-4 bg-brand-dark rounded-md`}
+        className={`relative h-20 mb-4 flex space-x-4 bg-brand-dark border border-highlight-dark`}
       >
         <div className="relative w-14">
           <Image
