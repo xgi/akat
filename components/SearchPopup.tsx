@@ -21,10 +21,10 @@ const SearchPopup: React.FC<Props> = (props: Props) => {
             key={result.id}
             id={result.id}
             title={result.title}
-            coverSrc={
+            posterSrc={
               result.poster_path
                 ? getPosterUrl(result.poster_path)
-                : "/cover.jpg"
+                : "/blank_poster.svg"
             }
             year={new Date(result.release_date).getFullYear()}
             originalLanguage={result.original_language}

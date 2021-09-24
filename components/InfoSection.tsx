@@ -165,7 +165,7 @@ const InfoSection: React.FC<Props> = (props: Props) => {
             src={
               details.poster_path
                 ? getPosterUrl(details.poster_path)
-                : "/cover.jpg"
+                : "/blank_poster.svg"
             }
             alt={details.title}
             layout="fill"

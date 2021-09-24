@@ -4,7 +4,7 @@ import { languageFromCode } from "../utils/languages";
 type Props = {
   id: number;
   title: string;
-  coverSrc: string;
+  posterSrc: string;
   year: number;
   originalLanguage: string;
   productionCountries: string[];
@@ -22,7 +22,7 @@ const SearchPopupItem: React.FC<Props> = (props: Props) => {
     >
       <div className="relative w-14">
         <Image
-          src={props.coverSrc}
+          src={props.posterSrc}
           alt={props.title}
           layout="fill"
           objectFit="cover"
