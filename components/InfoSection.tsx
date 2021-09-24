@@ -46,7 +46,6 @@ const InfoSection: React.FC<Props> = (props: Props) => {
     AlternativeTitles | undefined
   >();
   const [releaseDates, setReleaseDates] = useState<ReleaseDates | undefined>();
-  const [showingFilters, setShowingFilters] = useState(false);
   const [showingReleaseDates, setShowingReleaseDates] = useState(false);
 
   const loadData = async () => {
@@ -67,12 +66,6 @@ const InfoSection: React.FC<Props> = (props: Props) => {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.id]);
-
-  const renderFilters = () => {
-    if (!showingFilters || !alternativeTitles) return;
-
-    return <p>no filters available</p>;
-  };
 
   const renderRegionCards = () => {
     if (!alternativeTitles || !releaseDates) return;
@@ -197,16 +190,8 @@ const InfoSection: React.FC<Props> = (props: Props) => {
           onClick={() => setShowingReleaseDates(!showingReleaseDates)}
         >
           {showingReleaseDates ? "hide release dates" : "show release dates"}
-        </a>{" "}
-        /{" "}
-        <a
-          className="text-blue-400 hover:text-turquoise focus:text-turquoise hover:border-turquoise focus:border-turquoise cursor-pointer select-none"
-          onClick={() => setShowingFilters(!showingFilters)}
-        >
-          filters
         </a>
       </p>
-      {renderFilters()}
       {renderRegionCards()}
     </div>
   );
