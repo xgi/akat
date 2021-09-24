@@ -97,18 +97,18 @@ const InfoSection: React.FC<Props> = (props: Props) => {
               </span>
               {countryName}
             </p>
-            <ul className="list-disc">
+            <ul className="list-disc ml-4 text-gray-300">
               {titles.map((title) => (
-                <li key={title} className="truncate text-gray-300 ml-4">
+                <li key={title} className="truncate">
                   {title}
                 </li>
               ))}
             </ul>
             {showingReleaseDates && releaseDate ? (
-              <ul>
+              <ul className="mt-3 ml-4 text-gray-300">
                 {releaseDate.release_dates.map((item) => (
                   <li key={item.type}>
-                    {RELEASE_TYPES[item.type]} -{" "}
+                    <b>{RELEASE_TYPES[item.type]}:</b>{" "}
                     {formatReleaseDate(item.release_date)}
                   </li>
                 ))}
