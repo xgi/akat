@@ -43,11 +43,11 @@ const Home: NextPage = () => {
       <PageHead />
 
       <main className="flex flex-col items-center w-full flex-1 px-4 text-center mt-36 md:mt-48 xl:mt-52">
-        <div className="relative h-20">
+        <div className="relative">
           <HeaderLogo />
         </div>
 
-        <p className="mt-3 text-2xl">
+        <p className="text-2xl">
           Get movie titles from regions around the world.
         </p>
 
