@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SearchPopup from "../components/SearchPopup";
@@ -7,6 +6,7 @@ import PageHead from "../components/PageHead";
 import { NUM_SHOWN_SEARCH_RESULTS } from "../utils/constants";
 import { searchMovies, SearchPage } from "../utils/TMDBAPI";
 import InfoSection from "../components/InfoSection";
+import HeaderLogo from "../components/HeaderLogo";
 
 const Home: NextPage = () => {
   const [query, setQuery] = useState("");
@@ -43,8 +43,8 @@ const Home: NextPage = () => {
       <PageHead />
 
       <main className="flex flex-col items-center w-full flex-1 px-4 text-center mt-36 md:mt-48 xl:mt-52">
-        <div className="relative w-full h-20">
-          <Image alt="AKAT header" src="/header.svg" layout="fill" />
+        <div className="relative h-20">
+          <HeaderLogo />
         </div>
 
         <p className="mt-3 text-2xl">
