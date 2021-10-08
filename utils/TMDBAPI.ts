@@ -36,6 +36,21 @@ export type AlternativeTitles = {
   }[];
 };
 
+export type Translations = {
+  id: number;
+  translations: {
+    iso_3166_1: string;
+    iso_639_1: string;
+    name: string;
+    english_name: string;
+    data: {
+      title: string;
+      overview: string;
+      homepage: string;
+    };
+  }[];
+};
+
 export const RELEASE_TYPES: { [key: number]: string } = {
   1: "Premiere",
   2: "Theatrical (limited)",
@@ -97,6 +112,22 @@ export const getAlternativeTitles = (
     .then((response) => response.json())
     .then((json) => {
       return json as AlternativeTitles;
+    })
+    .catch((e) => {
+      console.error(e);
+      return null;
+    });
+};
+
+export const getTranslations = (id: number): Promise<Translations | null> => {
+  return fetch(
+    `${TMDB_API.URL_BASE}/movie/${id.toString()}/translations?api_key=${
+      TMDB_API.KEY
+    }`
+  )
+    .then((response) => response.json())
+    .then((json) => {
+      return json as Translations;
     })
     .catch((e) => {
       console.error(e);
