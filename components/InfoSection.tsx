@@ -6,9 +6,11 @@ import {
   getMovie,
   getPosterUrl,
   getReleaseDates,
+  getTranslations,
   MovieDetails,
   ReleaseDates,
   RELEASE_TYPES,
+  Translations,
 } from "../utils/TMDBAPI";
 import { languageFromCode } from "../utils/languages";
 import { countryNameFromCode } from "../utils/countries";
@@ -18,6 +20,11 @@ import LoadingSpinner from "./LoadingSpinner";
 type Props = {
   id: number;
 };
+
+enum TitleType {
+  AlternativeTitle,
+  Translation,
+}
 
 // https://dev.to/jorik/country-code-to-flag-emoji-a21
 const getFlagEmoji = (countryCode: string) => {
@@ -29,13 +36,55 @@ const getFlagEmoji = (countryCode: string) => {
 };
 
 const getTitlesByCountry = (
-  alternativeTitles: AlternativeTitles
-): { [code: string]: string[] } => {
-  const result: { [code: string]: string[] } = {};
+  alternativeTitles: AlternativeTitles,
+  translations: Translations
+): {
+  [code: string]: {
+    types: TitleType[];
+    title: string;
+    tlLanguage?: string;
+  }[];
+} => {
+  const result: {
+    [code: string]: {
+      types: TitleType[];
+      title: string;
+      tlLanguage?: string;
+    }[];
+  } = {};
+
+  translations.translations.forEach((tlObj) => {
+    if (tlObj.data.title !== "") {
+      const existingArr = result[tlObj.iso_3166_1] || [];
+      result[tlObj.iso_3166_1] = [
+        ...existingArr,
+        {
+          types: [TitleType.Translation],
+          title: tlObj.data.title,
+          tlLanguage: tlObj.name,
+        },
+      ];
+    }
+  });
 
   alternativeTitles.titles.forEach((titleObj) => {
-    const existing = result[titleObj.iso_3166_1] || [];
-    result[titleObj.iso_3166_1] = [...existing, titleObj.title];
+    const existingArr = result[titleObj.iso_3166_1] || [];
+    const existingEntryIdx = existingArr.findIndex(
+      (entry) => entry.title === titleObj.title
+    );
+
+    if (existingEntryIdx === -1) {
+      result[titleObj.iso_3166_1] = [
+        ...existingArr,
+        { types: [TitleType.AlternativeTitle], title: titleObj.title },
+      ];
+    } else {
+      existingArr[existingEntryIdx] = {
+        types: [TitleType.Translation, TitleType.AlternativeTitle],
+        title: titleObj.title,
+        tlLanguage: existingArr[existingEntryIdx].tlLanguage,
+      };
+    }
   });
 
   return result;
@@ -46,6 +95,7 @@ const InfoSection: React.FC<Props> = (props: Props) => {
   const [alternativeTitles, setAlternativeTitles] = useState<
     AlternativeTitles | undefined
   >();
+  const [translations, setTranslations] = useState<Translations | undefined>();
   const [releaseDates, setReleaseDates] = useState<ReleaseDates | undefined>();
   const [showingReleaseDates, setShowingReleaseDates] = useState(false);
 
@@ -61,6 +111,10 @@ const InfoSection: React.FC<Props> = (props: Props) => {
     if (!_alternativeTitles) return;
     setAlternativeTitles(_alternativeTitles);
 
+    const _translations = await getTranslations(props.id);
+    if (!_translations) return;
+    setTranslations(_translations);
+
     const _releaseDates = await getReleaseDates(props.id);
     if (!_releaseDates) return;
     setReleaseDates(_releaseDates);
@@ -72,9 +126,9 @@ const InfoSection: React.FC<Props> = (props: Props) => {
   }, [props.id]);
 
   const renderRegionCards = () => {
-    if (!alternativeTitles || !releaseDates) return;
+    if (!alternativeTitles || !translations || !releaseDates) return;
 
-    return Object.entries(getTitlesByCountry(alternativeTitles))
+    return Object.entries(getTitlesByCountry(alternativeTitles, translations))
       .sort((a, b) =>
         countryNameFromCode(a[0]).localeCompare(countryNameFromCode(b[0]))
       )
@@ -102,9 +156,23 @@ const InfoSection: React.FC<Props> = (props: Props) => {
               {countryName}
             </p>
             <ul className="list-disc ml-4 text-gray-300">
-              {titles.map((title) => (
-                <li key={title} className="truncate">
-                  {title}
+              {titles.map((titleEntry) => (
+                <li
+                  key={`${titleEntry.types.join("-")}_${titleEntry.title}`}
+                  className="truncate"
+                >
+                  {titleEntry.types.includes(TitleType.Translation) ? (
+                    <span
+                      className="border border-gray-400 text-gray-400 px-1.5 mr-2 cursor-default"
+                      style={{ fontSize: "0.7rem", lineHeight: 1 }}
+                      title={`Translation: ${titleEntry.tlLanguage}`}
+                    >
+                      TL
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  <span className="inline-block">{titleEntry.title}</span>
                 </li>
               ))}
             </ul>
