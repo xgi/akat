@@ -21,7 +21,7 @@ const About: NextPage = () => {
         <h1 className="text-2xl font-bold mt-3">How do I use it?</h1>
         <p>
           Search for a movie from the main page, and we&apos;ll show you the
-          title that movie was released with in different regions.
+          titles that movie was released with in different regions.
         </p>
         <h1 className="text-2xl font-bold mt-3">Where is the data from?</h1>
         <p>
