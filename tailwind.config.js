@@ -19,9 +19,6 @@ module.exports = {
           DEFAULT: "#2db8b0",
         },
       },
-      fontFamily: {
-        logo: ["Archivo Black", "sans-serif"]
-      }
     },
   },
   variants: {
